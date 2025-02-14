@@ -1,5 +1,12 @@
 // Write your overrides
-*{
-    direction: rtl;
-text-align: right;
+
+
+
+@font-face {
+    font-family: "iransans";
+    src: url("/src/fonts/IRANSans-Medium\ [@ClubEdits].ttf");
+}
+
+body{
+    font-family: "iransans";
 }
