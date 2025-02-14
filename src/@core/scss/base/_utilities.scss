@@ -168,7 +168,7 @@ $card-spacer-content: 16px;
     line-height: 1.3125rem;
   }
 
-  .app-timeline-meta {
+  .app-timeline-meta:hover {
     color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity));
     font-size: 12px;
     line-height: 0.875rem;

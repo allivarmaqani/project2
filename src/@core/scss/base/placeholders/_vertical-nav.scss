@@ -60,9 +60,10 @@
 // ℹ️ Setting height will prevent jerking when text & icon is toggled
 %vertical-nav-section-title {
   block-size: 1.5rem;
-  color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity));
-  font-size: 0.75rem;
+  color: rgb(255, 255, 255);
+  font-size: 2rem;
   text-transform: uppercase;
+  font-weight: 900;
 }
 
 // Vertical nav item badge styles

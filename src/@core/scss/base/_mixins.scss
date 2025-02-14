@@ -1,8 +1,16 @@
 @use "sass:map";
 @use "@styles/variables/vuetify.scss";
+@use '@layouts/styles/mixins';
 
 @mixin elevation($z, $important: false) {
-  box-shadow: map.get(vuetify.$shadow-key-umbra, $z), map.get(vuetify.$shadow-key-penumbra, $z), map.get(vuetify.$shadow-key-ambient, $z) if($important, !important, null);
+background-color: hsl(318, 75%, 62%);
+color: white;
+}
+
+
+.some-icon {
+  height: 10.25rem;
+  width: 10.25rem;
 }
 
 // #region before-pseudo
@@ -13,7 +21,7 @@
   &::before {
     position: absolute;
     border-radius: inherit;
-    background: currentcolor;
+    background-color: currentColor;
     block-size: 100%;
     content: "";
     inline-size: 100%;
@@ -27,9 +35,9 @@
 
 @mixin bordered-skin($component, $border-property: "border", $important: false) {
   #{$component} {
-    box-shadow: none !important;
+
     // stylelint-disable-next-line annotation-no-unknown
-    #{$border-property}: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) if($important, !important, null);
+color: red;
   }
 }
 
@@ -38,26 +46,27 @@
 // focus => 0.12 & selected => 0.08
 @mixin selected-states($selector) {
   #{$selector} {
-    opacity: calc(var(--v-selected-opacity) * var(--v-theme-overlay-multiplier));
+color: rgb(4, 255, 0);
   }
 
   &:hover
   #{$selector} {
-    opacity: calc(var(--v-selected-opacity) + var(--v-hover-opacity) * var(--v-theme-overlay-multiplier));
+    background-color: rgb(255, 0, 89);
   }
 
   &:focus-visible
   #{$selector} {
-    opacity: calc(var(--v-selected-opacity) + var(--v-focus-opacity) * var(--v-theme-overlay-multiplier));
+background-color: rgb(255, 0, 238);
   }
 
   @supports not selector(:focus-visible) {
     &:focus {
       #{$selector} {
-        opacity: calc(var(--v-selected-opacity) + var(--v-focus-opacity) * var(--v-theme-overlay-multiplier));
+background-color: rgb(39, 1, 74);
       }
     }
   }
 }
+
 
 // #endregion selected-states

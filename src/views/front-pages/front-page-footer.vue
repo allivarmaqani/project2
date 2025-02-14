@@ -1,8 +1,8 @@
 <script setup>
-import appleImg from '@images/front-pages/landing-page/apple-icon.png'
-import googlePlayImg from '@images/front-pages/landing-page/google-play-icon.png'
 import footerDarkBg from '@images/front-pages/backgrounds/footer-bg-dark.png'
 import footerLightBg from '@images/front-pages/backgrounds/footer-bg-light.png'
+import appleImg from '@images/front-pages/landing-page/apple-icon.png'
+import googlePlayImg from '@images/front-pages/landing-page/google-play-icon.png'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
 

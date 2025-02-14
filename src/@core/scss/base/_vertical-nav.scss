@@ -27,12 +27,12 @@
       padding: variables.$vertical-nav-header-padding;
       margin-inline: variables.$vertical-nav-header-inline-spacing;
       min-block-size: variables.$vertical-nav-header-height;
-
+      color: white;
       // TEMPLATE: Check if we need to move this to master
       .app-logo {
         flex-shrink: 0;
         transition: transform 0.25s ease-in-out;
-
+        color: white;
         @at-root {
           // Move logo a bit to align center with the icons in vertical nav mini variant
           .layout-vertical-nav-collapsed#{$sl-layout-nav-type-vertical}:not(.hovered) .nav-header .app-logo {
