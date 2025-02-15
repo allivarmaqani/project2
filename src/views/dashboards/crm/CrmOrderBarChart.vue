@@ -189,10 +189,10 @@ const chartOptions = computed(() => {
 
       <div class="d-flex align-center justify-space-between gap-x-2 mt-3">
         <h4 class="text-h4 text-center">
-        {{ randomNumber }}
+        {{ randomNumber }}K
         </h4>
         <div class="text-sm text-success">
-          {{ randomNumber }}
+          {{ randomNumber }}%
         </div>
       </div>
     </VCardText>
