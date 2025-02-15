@@ -92,5 +92,7 @@
         "borderStyle": "solid"
       }
     ]
-  }
+  },
+  "search.useParentIgnoreFiles": false,
+  "search.useGlobalIgnoreFiles": false
 }

@@ -9,6 +9,21 @@ import customCheck from '@images/svg/Check.svg'
 import customLaptop from '@images/svg/laptop.svg'
 import customLightbulb from '@images/svg/lightbulb.svg'
 
+
+
+const randomNumber = ref(null);
+const fetchRandomNumber = async () =>{
+  try{
+    const response = await getRandomNumber(1,100);
+    randomNumber.value =response.data.randomNumber;
+  } catch (error){
+    console.log('API error:',error)
+  }
+};
+
+
+onMounted(fetchRandomNumber);
+
 const donutChartColors = {
   donut: {
     series1: '#22A95E',
@@ -17,7 +32,7 @@ const donutChartColors = {
     series4: '#53D28C',
     series5: '#7EDDA9',
     series6: '#A9E9C5',
-  },
+  },  
 }
 
 const timeSpendingChartConfig = {

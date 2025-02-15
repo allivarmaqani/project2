@@ -1,4 +1,18 @@
 <script setup>
+import { getRandomNumber } from '@/service/randomNumberApi';
+import { computed, onMounted, ref } from 'vue';
+const randomNumber = ref(null);
+const fetchRandomNumber = async () =>{
+  try{
+    const response = await getRandomNumber(1,100);
+    randomNumber.value =response.data.randomNumber;
+  } catch (error){
+    console.log('API error:',error)
+  }
+};
+
+
+onMounted(fetchRandomNumber);
 const series = [{
   name: '2020',
   data: [
@@ -175,10 +189,10 @@ const chartOptions = computed(() => {
 
       <div class="d-flex align-center justify-space-between gap-x-2 mt-3">
         <h4 class="text-h4 text-center">
-          124k
+        {{ randomNumber }}
         </h4>
         <div class="text-sm text-success">
-          +12.6%
+          {{ randomNumber }}
         </div>
       </div>
     </VCardText>
