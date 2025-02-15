@@ -1,6 +1,6 @@
 <script setup>
-import { useTheme } from 'vuetify'
-import { hexToRgb } from '@layouts/utils'
+import { hexToRgb } from '@layouts/utils';
+import { useTheme } from 'vuetify';
 
 const vuetifyTheme = useTheme()
 
@@ -195,10 +195,10 @@ const chartOptions = computed(() => {
 
       <div class="d-flex align-center justify-space-between mt-4">
         <h4 class="text-h4">
-          45.1k
+         {{ randomNumber }}
         </h4>
         <p class="mb-0 text-sm text-success">
-          +12.6%
+        {{randomNumber}}%
         </p>
       </div>
     </VCardText>
