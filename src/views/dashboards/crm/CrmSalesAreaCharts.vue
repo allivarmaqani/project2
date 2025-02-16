@@ -1,5 +1,45 @@
 <script setup>
-import { useTheme } from 'vuetify'
+import { useTheme } from 'vuetify';
+
+
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const vuetifyTheme = useTheme()
 const currentTheme = vuetifyTheme.current.value.colors
@@ -80,10 +120,10 @@ const chartOptions = {
     <VCardText class="pt-1">
       <div class="d-flex align-center justify-space-between gap-x-2">
         <h4 class="text-h4 text-center">
-          175k
+{{ randomNumber }}K
         </h4>
         <span class="text-sm text-error">
-          -16.2%
+{{ randomNumber }}%
         </span>
       </div>
     </VCardText>
