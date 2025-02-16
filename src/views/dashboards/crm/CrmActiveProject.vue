@@ -5,6 +5,35 @@ import laravelLogo from '@images/icons/brands/laravel-logo.png'
 import reactLogo from '@images/icons/brands/react-logo.png'
 import sketchLogo from '@images/icons/brands/sketch-logo.png'
 import vuejsLogo from '@images/icons/brands/vuejs-logo.png'
+import axios from 'axios'
+import { onMounted, onUnmounted, ref } from 'vue'
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+
+
+
+onMounted(fetchRandomNumber);
 
 const activeProjects = [
   {
@@ -72,7 +101,7 @@ const moreList = [
     <VCardItem>
       <VCardTitle>Active Projects</VCardTitle>
       <VCardSubtitle>
-        Average 72% completed
+        Average {{randomNumber}}% completed
       </VCardSubtitle>
       <template #append>
         <div class="mt-n4 me-n2">

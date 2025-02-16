@@ -11,15 +11,32 @@ import customLightbulb from '@images/svg/lightbulb.svg'
 
 
 
+import axios from 'axios'
+import { onMounted, onUnmounted, ref } from 'vue'
+
 const randomNumber = ref(null);
-const fetchRandomNumber = async () =>{
-  try{
-    const response = await getRandomNumber(1,100);
-    randomNumber.value =response.data.randomNumber;
-  } catch (error){
-    console.log('API error:',error)
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
   }
 };
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+
 
 
 onMounted(fetchRandomNumber);
@@ -192,7 +209,7 @@ const timeSpendingChartSeries = [
                 label
                 size="small"
               >
-                +18.4%
+                {{ randomNumber }}%
               </VChip>
             </div>
           </div>

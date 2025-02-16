@@ -1,27 +1,56 @@
 <script setup>
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+
+
+
+onMounted(fetchRandomNumber);
 const assignmentData = [
   {
     title: 'User Experience Design',
     tasks: 120,
-    progress: 72,
+    progress: randomNumber ,
     color: 'primary',
   },
   {
     title: 'Basic fundamentals',
     tasks: 32,
-    progress: 48,
+    progress: randomNumber,
     color: 'success',
   },
   {
     title: 'React Native components',
     tasks: 182,
-    progress: 15,
+    progress: randomNumber,
     color: 'error',
   },
   {
     title: 'Basic of music theory',
     tasks: 56,
-    progress: 24,
+    progress: randomNumber,
     color: 'info',
   },
 ]
