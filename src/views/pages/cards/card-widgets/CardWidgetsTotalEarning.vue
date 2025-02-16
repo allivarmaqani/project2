@@ -1,4 +1,5 @@
 <script setup>
+
 import { useTheme } from 'vuetify'
 
 const vuetifyTheme = useTheme()

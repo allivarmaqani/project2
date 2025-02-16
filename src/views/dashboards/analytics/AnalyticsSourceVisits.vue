@@ -1,46 +1,70 @@
 <script setup>
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
 const sourceVisits = [
   {
     avatarIcon: 'tabler-shadow',
     title: 'Direct Source',
     subtitle: 'Direct link click',
     stats: '1.2k',
-    profitLoss: 4.2,
+    profitLoss: randomNumber,
   },
   {
     avatarIcon: 'tabler-globe',
     title: 'Social Network',
     subtitle: 'Social Channels',
     stats: '31.5k',
-    profitLoss: 8.2,
+    profitLoss: randomNumber,
   },
   {
     avatarIcon: 'tabler-mail',
     title: 'Email Newsletter',
     subtitle: 'Mail Campaigns',
     stats: '893',
-    profitLoss: 2.4,
+    profitLoss: randomNumber,
   },
   {
     avatarIcon: 'tabler-external-link',
     title: 'Referrals',
     subtitle: 'Impact Radius Visits',
     stats: '342',
-    profitLoss: -0.4,
+    profitLoss: randomNumber,
   },
   {
     avatarIcon: 'tabler-ad',
     title: 'ADVT',
     subtitle: 'Google ADVT',
     stats: '2.15k',
-    profitLoss: 9.1,
+    profitLoss: randomNumber,
   },
   {
     avatarIcon: 'tabler-star',
     title: 'Other',
     subtitle: 'Many Sources',
     stats: '12.5k',
-    profitLoss: 6.2,
+    profitLoss: randomNumber,
   },
 ]
 

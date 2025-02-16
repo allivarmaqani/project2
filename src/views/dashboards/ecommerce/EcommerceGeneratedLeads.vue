@@ -1,9 +1,30 @@
 <script setup>
-import {
-  useDisplay,
-  useTheme,
-} from 'vuetify'
-import { hexToRgb } from '@layouts/utils'
+import { hexToRgb } from '@core/utils/colorConverter';
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+import { useDisplay, useTheme } from 'vuetify';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
 
 const vuetifyTheme = useTheme()
 const display = useDisplay()
@@ -147,7 +168,7 @@ const chartOptions = computed(() => {
               color="success"
               class="me-1"
             />
-            <span class="text-success font-weight-medium">15.8% </span>
+            <span class="text-success font-weight-medium">{{ randomNumber }}%</span>
           </div>
         </div>
       </div>

@@ -1,4 +1,18 @@
 <script setup>
+import axios from 'axios';
+import { ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
 const transitions = [
   {
     avatarIcon: 'tabler-wallet',

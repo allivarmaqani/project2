@@ -1,6 +1,20 @@
 <script setup>
-import { useTheme } from 'vuetify'
-import { hexToRgb } from '@layouts/utils'
+import axios from 'axios';
+import { ref } from 'vue';
+import { useTheme } from 'vuetify';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
 
 const vuetifyTheme = useTheme()
 
@@ -88,7 +102,7 @@ const earningReports = [
     title: 'Net Profit',
     subtitle: '12.4k Sales',
     earnings: '$1,619',
-    percentage: '18.6%',
+    percentage: randomNumber,
   },
   {
     avatarIcon: 'tabler-currency-dollar',
@@ -96,7 +110,7 @@ const earningReports = [
     title: 'Total Income',
     subtitle: 'Sales, Affiliation',
     earnings: '$3,571',
-    percentage: '39.6%',
+    percentage: randomNumber,
   },
   {
     avatarIcon: 'tabler-credit-card',
