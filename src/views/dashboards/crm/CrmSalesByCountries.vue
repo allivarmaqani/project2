@@ -1,47 +1,76 @@
 <script setup>
-import auFlag from '@images/icons/countries/au.png'
-import brFlag from '@images/icons/countries/br.png'
-import cnFlag from '@images/icons/countries/cn.png'
-import frFlag from '@images/icons/countries/fr.png'
-import inFlag from '@images/icons/countries/in.png'
-import usFlag from '@images/icons/countries/us.png'
+
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+
+
+
+import auFlag from '@images/icons/countries/au.png';
+import brFlag from '@images/icons/countries/br.png';
+import cnFlag from '@images/icons/countries/cn.png';
+import frFlag from '@images/icons/countries/fr.png';
+import inFlag from '@images/icons/countries/in.png';
+import usFlag from '@images/icons/countries/us.png';
 
 const salesByCountries = [
   {
     avatarImg: usFlag,
-    stats: '$8,567k',
+    stats: randomNumber,
     subtitle: 'United states',
-    profitLoss: 25.8,
+    profitLoss: randomNumber.value,
   },
   {
     avatarImg: brFlag,
-    stats: '$2,415k',
+    stats: randomNumber,
     subtitle: 'Brazil',
-    profitLoss: -6.2,
+    profitLoss: randomNumber.value,
   },
   {
     avatarImg: inFlag,
-    stats: '$865k',
+    stats: randomNumber,
     subtitle: 'India',
-    profitLoss: 12.4,
+    profitLoss: randomNumber.value,
   },
   {
     avatarImg: auFlag,
-    stats: '$745k',
+    stats: randomNumber,
     subtitle: 'Australia',
-    profitLoss: -11.9,
+    profitLoss: randomNumber.value,
   },
   {
     avatarImg: frFlag,
-    stats: '$45',
+    stats: randomNumber,
     subtitle: 'France',
-    profitLoss: 16.2,
+    profitLoss: randomNumber.value,
   },
   {
     avatarImg: cnFlag,
-    stats: '$12k',
+    stats: randomNumber,
     subtitle: 'China',
-    profitLoss: 14.8,
+    profitLoss: randomNumber.value,
   },
 ]
 

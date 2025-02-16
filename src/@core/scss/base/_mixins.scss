@@ -3,7 +3,6 @@
 @use '@layouts/styles/mixins';
 
 @mixin elevation($z, $important: false) {
-background-color: hsl(318, 75%, 62%);
 color: white;
 }
 

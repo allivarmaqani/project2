@@ -1,5 +1,29 @@
 <script setup>
-import { useTheme } from 'vuetify'
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+import { useTheme } from 'vuetify';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
 
 const vuetifyTheme = useTheme()
 
@@ -195,14 +219,14 @@ const totalEarnings = [
     avatarColor: 'primary',
     title: 'Total Revenue',
     subtitle: 'Client Payment',
-    earning: '+$126',
+    earning: randomNumber,
   },
   {
     avatar: 'tabler-currency-dollar',
     avatarColor: 'secondary',
     title: 'Total Sales',
     subtitle: 'Total Sales',
-    earning: '+$98',
+    earning: randomNumber,
   },
 ]
 
@@ -225,14 +249,14 @@ const moreList = [
 
       <div class="d-flex align-center mt-2">
         <h2 class="text-h2 me-2">
-          87%
+          {{randomNumber}}%
         </h2>
         <div class="text-success">
           <VIcon
             size="20"
             icon="tabler-chevron-up"
           />
-          <span class="text-base">25.8%</span>
+          <span class="text-base">{{randomNumber}}%</span>
         </div>
       </div>
 

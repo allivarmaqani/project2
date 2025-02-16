@@ -1,7 +1,32 @@
 <script setup>
-import aeIcon from '@images/icons/payments/ae-icon.png'
-import mastercardIcon from '@images/icons/payments/mastercard-icon.png'
-import visaIcon from '@images/icons/payments/visa-icon.png'
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+import aeIcon from '@images/icons/payments/ae-icon.png';
+import mastercardIcon from '@images/icons/payments/mastercard-icon.png';
+import visaIcon from '@images/icons/payments/visa-icon.png';
 
 const lastTransitions = [
   {
@@ -10,7 +35,7 @@ const lastTransitions = [
     cardType: 'Credit',
     sentDate: '17 Mar 2022',
     status: 'Verified',
-    trend: '+$1,678',
+    trend: randomNumber,
   },
   {
     cardImg: mastercardIcon,
@@ -18,7 +43,7 @@ const lastTransitions = [
     cardType: 'Credit',
     sentDate: '12 Feb 2022',
     status: 'Rejected',
-    trend: '-$839',
+    trend: randomNumber,
   },
   {
     cardImg: aeIcon,
@@ -26,7 +51,7 @@ const lastTransitions = [
     cardType: 'Credit',
     sentDate: '28 Feb 2022',
     status: 'Verified',
-    trend: '+$435',
+    trend: randomNumber,
   },
   {
     cardImg: visaIcon,
@@ -34,7 +59,7 @@ const lastTransitions = [
     cardType: 'Credit',
     sentDate: '8 Jan 2022',
     status: 'Pending',
-    trend: '+$2,345',
+    trend: randomNumber,
   },
   {
     cardImg: visaIcon,
@@ -42,7 +67,7 @@ const lastTransitions = [
     cardType: 'Credit',
     sentDate: '8 Jan 2022',
     status: 'Rejected',
-    trend: '-$234',
+    trend: randomNumber,
   },
 ]
 

@@ -1,6 +1,33 @@
 <script setup>
-import { useTheme } from 'vuetify'
-import { prefixWithPlus } from '@core/utils/formatters'
+
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+
+import { prefixWithPlus } from '@core/utils/formatters';
+import { useTheme } from 'vuetify';
 
 const vuetifyTheme = useTheme()
 
@@ -79,13 +106,13 @@ const chartOptions = computed(() => {
 const projectStatus = [
   {
     title: 'Donates',
-    amount: '$756.26',
-    lossProfit: -139.34,
+    amount: randomNumber,
+    lossProfit: randomNumber,
   },
   {
     title: 'Podcasts',
-    amount: '$2,207.03',
-    lossProfit: +576.24,
+    amount: randomNumber,
+    lossProfit: randomNumber,
   },
 ]
 
@@ -116,7 +143,7 @@ const moreList = [
       <VList class="card-list mb-6">
         <VListItem>
           <VListItemTitle class="font-weight-medium">
-            $4,3742
+         {{ randomNumber }}$
           </VListItemTitle>
           <template #prepend>
             <VAvatar
@@ -131,7 +158,7 @@ const moreList = [
           </VListItemSubtitle>
 
           <template #append>
-            <span class="text-success font-weight-medium">+10.2%</span>
+            <span class="text-success font-weight-medium">{{randomNumber}}%</span>
           </template>
         </VListItem>
       </VList>

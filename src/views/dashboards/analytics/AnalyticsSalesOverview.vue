@@ -1,3 +1,30 @@
+<script setup >
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+</script>
 <template>
   <VCard>
     <VCardText>
@@ -6,7 +33,7 @@
           Sales Overview
         </div>
         <div class="text-success font-weight-medium">
-          +18.2%
+          {{randomNumber}}%
         </div>
       </div>
       <h4 class="text-h4">

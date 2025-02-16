@@ -1,11 +1,36 @@
 <script setup>
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
 const monthlyCampaignState = [
   {
     avatarColor: 'success',
     avatarIcon: 'tabler-mail',
     title: 'Emails',
     count: '12,346',
-    stats: '0.3%',
+    stats: randomNumber,
     statsColor: 'success',
   },
   {
@@ -13,7 +38,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-link',
     title: 'Opened',
     count: '8,734',
-    stats: '2.1%',
+    stats: randomNumber,
     statsColor: 'success',
   },
   {
@@ -21,7 +46,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-mouse',
     title: 'Clicked',
     count: '967',
-    stats: '1.4%',
+    stats: randomNumber,
     statsColor: 'error',
   },
   {
@@ -29,7 +54,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-users',
     title: 'Subscribe',
     count: '345',
-    stats: '8.5%',
+    stats: randomNumber,
     statsColor: 'success',
   },
   {
@@ -37,7 +62,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-alert-triangle',
     title: 'Complaints',
     count: '10',
-    stats: '1.5%',
+    stats: randomNumber,
     statsColor: 'error',
   },
   {
@@ -45,7 +70,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-ban',
     title: 'Unsubscribe',
     count: '86',
-    stats: '0.8%',
+    stats: randomNumber,
     statsColor: 'success',
   },
 ]

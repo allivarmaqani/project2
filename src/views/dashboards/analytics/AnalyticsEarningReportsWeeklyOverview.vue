@@ -1,6 +1,31 @@
 <script setup>
-import { useTheme } from 'vuetify'
-import { hexToRgb } from '@layouts/utils'
+import axios from 'axios';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const randomNumber = ref(null);
+
+const fetchRandomNumber = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/random-number');
+    randomNumber.value = response.data.randomNumber; 
+    console.log('Random Number:', randomNumber.value); 
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+onMounted(() => {
+  fetchRandomNumber();
+
+  const intervalId = setInterval(fetchRandomNumber, 4000);
+
+  onUnmounted(() => {
+    clearInterval(intervalId);
+  });
+});
+
+import { hexToRgb } from '@layouts/utils';
+import { useTheme } from 'vuetify';
 
 const vuetifyTheme = useTheme()
 
@@ -154,7 +179,7 @@ const moreList = [
               size="small"
               color="success"
             >
-              +4.2%
+              {{ randomNumber }}%
             </VChip>
           </div>
 
