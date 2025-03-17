@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useTheme } from 'vuetify';
 
 const randomNumber = ref(null);
 
@@ -17,7 +18,7 @@ const fetchRandomNumber = async () => {
 onMounted(() => {
   fetchRandomNumber();
 
-  const intervalId = setInterval(fetchRandomNumber, 4000);
+  const intervalId = setInterval(fetchRandomNumber, 4000); // زمان ۴۰۰۰ میلی ثانیه
 
   onUnmounted(() => {
     clearInterval(intervalId);
@@ -25,7 +26,6 @@ onMounted(() => {
 });
 
 import { hexToRgb } from '@layouts/utils';
-import { useTheme } from 'vuetify';
 
 const vuetifyTheme = useTheme()
 
@@ -116,21 +116,21 @@ const earningsReports = [
     icon: 'tabler-currency-dollar',
     title: 'Earnings',
     amount: '$545.69',
-    progress: '55',
+    progress: 55, // مقدار پیشرفت باید درصد باشد
   },
   {
     color: 'info',
     icon: 'tabler-chart-pie-2',
     title: 'Profit',
     amount: '$256.34',
-    progress: '25',
+    progress: 25,
   },
   {
     color: 'error',
     icon: 'tabler-brand-paypal',
     title: 'Expense',
     amount: '$74.19',
-    progress: '65',
+    progress: 65,
   },
 ]
 
@@ -179,7 +179,7 @@ const moreList = [
               size="small"
               color="success"
             >
-              {{ randomNumber }}%
+              {{ randomNumber.value }}% <!-- از randomNumber.value استفاده کنید -->
             </VChip>
           </div>
 

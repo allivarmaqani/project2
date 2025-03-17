@@ -24,13 +24,14 @@ onMounted(() => {
   });
 });
 
+// هر آیتم از `monthlyCampaignState` یک `ref` مستقل برای `stats` دارد.
 const monthlyCampaignState = [
   {
     avatarColor: 'success',
     avatarIcon: 'tabler-mail',
     title: 'Emails',
     count: '12,346',
-    stats: randomNumber,
+    stats: ref(randomNumber.value),  // استفاده از `ref` برای مقدار جداگانه
     statsColor: 'success',
   },
   {
@@ -38,7 +39,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-link',
     title: 'Opened',
     count: '8,734',
-    stats: randomNumber,
+    stats: ref(randomNumber.value),  // استفاده از `ref` برای مقدار جداگانه
     statsColor: 'success',
   },
   {
@@ -46,7 +47,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-mouse',
     title: 'Clicked',
     count: '967',
-    stats: randomNumber,
+    stats: ref(randomNumber.value),  // استفاده از `ref` برای مقدار جداگانه
     statsColor: 'error',
   },
   {
@@ -54,7 +55,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-users',
     title: 'Subscribe',
     count: '345',
-    stats: randomNumber,
+    stats: ref(randomNumber.value),  // استفاده از `ref` برای مقدار جداگانه
     statsColor: 'success',
   },
   {
@@ -62,7 +63,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-alert-triangle',
     title: 'Complaints',
     count: '10',
-    stats: randomNumber,
+    stats: ref(randomNumber.value),  // استفاده از `ref` برای مقدار جداگانه
     statsColor: 'error',
   },
   {
@@ -70,7 +71,7 @@ const monthlyCampaignState = [
     avatarIcon: 'tabler-ban',
     title: 'Unsubscribe',
     count: '86',
-    stats: randomNumber,
+    stats: ref(randomNumber.value),  // استفاده از `ref` برای مقدار جداگانه
     statsColor: 'success',
   },
 ]
@@ -139,7 +140,7 @@ const moreList = [
                 {{ state.count }}
               </div>
               <div :class="`text-${state.statsColor}`">
-                {{ state.stats }}
+                {{ state.stats }}  <!-- استفاده از `state.stats` که به `randomNumber.value` متصل است -->
               </div>
             </div>
           </template>

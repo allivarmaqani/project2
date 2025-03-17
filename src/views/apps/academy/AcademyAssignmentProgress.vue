@@ -24,15 +24,12 @@ onMounted(() => {
   });
 });
 
-
-
-
-onMounted(fetchRandomNumber);
-const assignmentData = [
+// تغییرات برای استفاده از randomNumber.value به طور صحیح
+const assignmentData = ref([
   {
     title: 'User Experience Design',
     tasks: 120,
-    progress:randomNumber ,
+    progress: randomNumber, // در اینجا progress باید به randomNumber اشاره کند
     color: 'primary',
   },
   {
@@ -53,7 +50,8 @@ const assignmentData = [
     progress: randomNumber,
     color: 'info',
   },
-]
+]);
+
 </script>
 
 <template>
@@ -71,13 +69,13 @@ const assignmentData = [
         >
           <template #prepend>
             <VProgressCircular
-              v-model="assignment.progress"
+              v-model="assignment.progress.value" 
               :size="54"
               class="me-4"
               :color="assignment.color"
             >
               <span class="text-body-1 text-high-emphasis font-weight-medium">
-                {{ assignment.progress }}%
+                {{ assignment.progress.value }}% <!-- استفاده از randomNumber.value -->
               </span>
             </VProgressCircular>
           </template>

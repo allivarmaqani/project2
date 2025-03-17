@@ -1,206 +1,43 @@
+
 <script setup>
 import axios from 'axios';
 import { onMounted, onUnmounted, ref } from 'vue';
 
-const randomNumber = ref(null);
+const randomNumber = ref(null); // متغیر برای ذخیره عدد تصادفی
 
+// تابعی برای دریافت عدد تصادفی
 const fetchRandomNumber = async () => {
   try {
+    // درخواست به API
     const response = await axios.get('http://localhost:3000/api/random-number');
-    randomNumber.value = response.data.randomNumber; 
-    console.log('Random Number:', randomNumber.value); 
+    
+    // بررسی وضعیت پاسخ
+    if (response.status === 200 && response.data.randomNumber !== undefined) {
+      randomNumber.value = response.data.randomNumber; // ذخیره عدد تصادفی
+    } else {
+      console.error('Invalid response:', response); // در صورت دریافت پاسخ نادرست
+      randomNumber.value = generateRandomNumber(); // تولید عدد تصادفی در صورت خطا
+    }
   } catch (error) {
-    console.error('API error:', error);
+    console.error('API error:', error); // خطاهای درخواست API
+    randomNumber.value = generateRandomNumber(); // تولید عدد تصادفی در صورت بروز خطا
   }
 };
 
-onMounted(() => {
-  fetchRandomNumber();
+// تابعی برای تولید عدد تصادفی به صورت دستی در صورت بروز خطا
+const generateRandomNumber = () => {
+  return Math.floor(Math.random() * (1000 - 100 + 1)) + 100; // عدد تصادفی بین 100 و 1000
+};
 
-  const intervalId = setInterval(fetchRandomNumber, 4000);
+onMounted(() => {
+  fetchRandomNumber(); // دریافت عدد تصادفی هنگام بارگذاری کامپوننت
+
+  const intervalId = setInterval(fetchRandomNumber, 4000); // درخواست مجدد هر 4 ثانیه
 
   onUnmounted(() => {
-    clearInterval(intervalId);
+    clearInterval(intervalId); // پاک کردن تایمر هنگام حذف کامپوننت
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-onMounted(fetchRandomNumber);
-const series = [{
-  name: '2020',
-  data: [
-    60,
-    50,
-    20,
-    45,
-    50,
-    30,
-    70,
-  ],
-}]
-
-const chartOptions = computed(() => {
-  return {
-    chart: {
-      height: 90,
-      parentHeightOffset: 0,
-      type: 'bar',
-      toolbar: { show: false },
-    },
-    tooltip: { enabled: false },
-    plotOptions: {
-      bar: {
-        barHeight: '100%',
-        columnWidth: '30%',
-        startingShape: 'rounded',
-        endingShape: 'rounded',
-        borderRadius: 4,
-        colors: {
-          backgroundBarColors: [
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-            'rgba(var(--v-track-bg))',
-          ],
-          backgroundBarRadius: 4,
-        },
-      },
-    },
-    colors: ['rgba(var(--v-theme-primary),1)'],
-    grid: {
-      show: false,
-      padding: {
-        top: -30,
-        left: -16,
-        bottom: 0,
-        right: -6,
-      },
-    },
-    dataLabels: { enabled: false },
-    legend: { show: false },
-    xaxis: {
-      categories: [
-        'M',
-        'T',
-        'W',
-        'T',
-        'F',
-        'S',
-        'S',
-      ],
-      axisBorder: { show: false },
-      axisTicks: { show: false },
-      labels: { show: false },
-    },
-    yaxis: { labels: { show: false } },
-    responsive: [
-      {
-        breakpoint: 1441,
-        options: {
-          plotOptions: {
-            bar: {
-              columnWidth: '30%',
-              borderRadius: 4,
-            },
-          },
-        },
-      },
-      {
-        breakpoint: 1368,
-        options: { plotOptions: { bar: { columnWidth: '48%' } } },
-      },
-      {
-        breakpoint: 1264,
-        options: {
-          plotOptions: {
-            bar: {
-              borderRadius: 6,
-              columnWidth: '30%',
-              colors: { backgroundBarRadius: 6 },
-            },
-          },
-        },
-      },
-      {
-        breakpoint: 960,
-        options: {
-          plotOptions: {
-            bar: {
-              columnWidth: '15%',
-              borderRadius: 4,
-            },
-          },
-        },
-      },
-      {
-        breakpoint: 883,
-        options: { plotOptions: { bar: { columnWidth: '20%' } } },
-      },
-      {
-        breakpoint: 768,
-        options: { plotOptions: { bar: { columnWidth: '25%' } } },
-      },
-      {
-        breakpoint: 600,
-        options: {
-          plotOptions: {
-            bar: {
-              columnWidth: '15%',
-              borderRadius: 4,
-            },
-            colors: { backgroundBarRadius: 9 },
-          },
-        },
-      },
-      {
-        breakpoint: 479,
-        options: {
-          plotOptions: {
-            bar: { borderRadius: 4 },
-            colors: { backgroundBarRadius: 9 },
-          },
-          grid: {
-            padding: {
-              right: -15,
-              left: -15,
-            },
-          },
-        },
-      },
-      {
-        breakpoint: 400,
-        options: { plotOptions: { bar: { borderRadius: 4 } } },
-      },
-    ],
-  }
-})
 </script>
 
 <template>
@@ -219,7 +56,7 @@ const chartOptions = computed(() => {
 
       <div class="d-flex align-center justify-space-between gap-x-2 mt-3">
         <h4 class="text-h4 text-center">
-        {{ randomNumber }}K
+          {{ randomNumber }}K
         </h4>
         <div class="text-sm text-success">
           {{ randomNumber }}%

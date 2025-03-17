@@ -42,22 +42,37 @@ const credentials = ref({
 const rememberMe = ref(false)
 
 const login = async () => {
-try {
-  const res = await $api("curlhttp://www.randomnumberapi.com/api/v1.0/random?min=100&max=1000&count=5",{
-    method: 'Get',
+  try {
+    const res = await $api('/auth/login', {
+      method: 'POST',
       body: {
         email: credentials.value.email,
         password: credentials.value.password,
       },
       onResponseError({ response }) {
         errors.value = response._data.errors
-      }
-  })
+      },
+    })
 
- console.log('response >>>', res);
- } catch (error) {
-  console.error(err)
- }
+    const { accessToken, userData, userAbilityRules } = res
+
+    useCookie('userAbilityRules').value = userAbilityRules
+    ability.update(userAbilityRules)
+    useCookie('userData').value = userData
+    useCookie('accessToken').value = accessToken
+    await nextTick(() => {
+      router.replace(route.query.to ? String(route.query.to) : '/')
+    })
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const onSubmit = () => {
+  refVForm.value?.validate().then(({ valid: isValid }) => {
+    if (isValid)
+      login()
+  })
 }
 </script>
 
@@ -159,7 +174,6 @@ try {
                   placeholder="············"
                   :rules="[requiredValidator]"
                   :type="isPasswordVisible ? 'text' : 'password'"
-                  autocomplete="password"
                   :error-messages="errors.password"
                   :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
@@ -224,5 +238,5 @@ try {
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/page-auth";
+@use "@core/scss/template/pages/page-auth.scss";
 </style>
